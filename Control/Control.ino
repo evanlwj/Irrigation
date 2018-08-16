@@ -111,9 +111,11 @@ void showTimer() {
 }
 
 void showTemperature() {
+  lcd.setCursor(0,0);
+  lcd.print("  TEMPERATURE   ");
   long tempMVs = (long)analogRead(senTemp) * 1000;
   float degrees = round(tempMVs / 2048.0 - 49.5);
-  String celcius = String(degrees, 0) + (char)178 + "C  ";
+  String celcius = String(degrees, 0) + (char)178 + "C";
   lcd.setCursor(6,0);
   lcd.print(celcius);
 }
@@ -125,6 +127,20 @@ bool buttonPressed(int button) {
     pressed = true;
   }
   return pressed;
+}
+
+String centerText(String text, byte width) {
+  String result = text;
+  if (result.length > width) {
+    result.remove(width);
+  }
+  else {
+    while (result.length < width) {
+      result = " " + result;
+      if (result.length < width) result += " ";
+    }
+  }
+  return result;
 }
 
 void loop() {
